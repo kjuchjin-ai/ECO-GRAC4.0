@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GREEN-TALLY - ECO-RACE 4.0</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f8f0; /* Màu nền xanh nhạt */
+        }
+        .container {
+            max-width: 900px;
+            margin-top: 20px;
+        }
+        .header-title {
+            color: #28a745; /* Màu xanh lá đậm */
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 3px solid #28a745;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: none;
+        }
+        .rank-header {
+            background-color: #28a745;
+            color: white;
+        }
+        .rank-item-mvp {
+            background-color: #ffc107; /* Vàng cho MVP */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="header-title">💚 ECO-RACE 4.0 💚</h1>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="input-tab" data-bs-toggle="tab" data-bs-target="#input" type="button" role="tab">1. Nhập Liệu Rác</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="ranking-tab" data-bs-toggle="tab" data-bs-target="#ranking" type="button" role="tab">2. Bảng Xếp Hạng</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        
+        <div class="tab-pane fade show active" id="input" role="tabpanel" aria-labelledby="input-tab">
+            <div class="card mt-3">
+                <div class="card-header bg-success text-white">
+                    <h5>Điểm Danh & Ghi Nhận Tái Chế</h5>
+                </div>
+                <div class="card-body">
+                    <form id="recycleForm">
+                        <div class="mb-3">
+                            <label for="classSelect" class="form-label">Chọn Lớp học của bạn:</label>
+                            <select class="form-select" id="classSelect" required>
+                                <option value="">--- Vui lòng chọn ---</option>
+                                <option value="10A1">10A1</option>
+                                <option value="10A2">10A2</option>
+                                <option value="11B1">11B1</option>
+                                <option value="12C3">12C3 (MVP Tháng trước)</option>
+                            </select>
+                        </div>
+
+                        <h6>Nhập Chi tiết Rác Thải:</h6>
+                        <hr>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Chai Nhựa:</label>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" placeholder="Số lượng (cái)" id="plasticCount" min="0" value="0">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" placeholder="Thể tích (ml)" id="plasticVolume" min="0" value="0">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Lon Kim Loại:</label>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" placeholder="Số lượng (cái)" id="canCount" min="0" value="0">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" placeholder="Thể tích (ml)" id="canVolume" min="0" value="0">
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <label for="paperWeight" class="col-sm-4 col-form-label">Giấy:</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" placeholder="Cân nặng (gram)" id="paperWeight" min="0" required>
+                                <div class="form-text">Nhập chính xác bằng **Gram** (ví dụ: 500g, 1200g).</div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">✅ Gửi Dữ liệu & Tính Điểm Xanh</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="ranking-tab">
+            <div class="card mt-3">
+                <div class="card-header rank-header">
+                    <h4>📊 Bảng Xếp Hạng Lớp (Tuần Hiện Tại)</h4>
+                    <p class="mb-0">Tiêu chí: Tổng Trọng lượng Quy ước (Điểm Xanh)</p>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning text-center">
+                        🏆 **LỚP MVP THÁNG**: 12C3
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Lớp</th>
+                                <th>Tổng Điểm Xanh</th>
+                                <th>Chi tiết Rác (cái/g)</th>
+                                <th>Tăng trưởng (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rankingTableBody">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // =========================================================
+    // JAVASCRIPT LOGIC
+    // =========================================================
+
+    // 1. Dữ liệu mẫu cho Bảng Xếp Hạng (Sẽ được lấy từ Server/API thực tế)
+    const mockRankingData = [
+        { rank: 1, class: "11B1", score: 8550, detail: "45c/5.5kg", growth: 15, isMVP: false },
+        { rank: 2, class: "10A1", score: 8200, detail: "50c/4.8kg", growth: 22, isMVP: false },
+        { rank: 3, class: "12C3", score: 7950, detail: "30c/6.0kg", growth: 5, isMVP: true },
+        { rank: 4, class: "10A2", score: 6100, detail: "25c/3.5kg", growth: -8, isMVP: false },
+        { rank: 5, class: "11B2", score: 4500, detail: "20c/2.1kg", growth: 10, isMVP: false },
+    ];
+
+    // Hàm hiển thị Bảng Xếp Hạng
+    function renderRanking() {
+        const tableBody = document.getElementById('rankingTableBody');
+        tableBody.innerHTML = ''; // Xóa dữ liệu cũ
+
+        mockRankingData.forEach(item => {
+            const row = tableBody.insertRow();
+            if (item.isMVP) {
+                row.classList.add('rank-item-mvp'); // Tô màu MVP
+            }
+
+            const growthColor = item.growth > 0 ? 'text-success' : (item.growth < 0 ? 'text-danger' : 'text-secondary');
+            const growthIcon = item.growth > 0 ? '🔺' : (item.growth < 0 ? '🔻' : '➖');
+
+            row.innerHTML = `
+                <td>${item.rank}</td>
+                <td>${item.class}</td>
+                <td><strong>${item.score.toLocaleString()}</strong></td>
+                <td>${item.detail}</td>
+                <td class="${growthColor}">
+                    ${growthIcon} ${Math.abs(item.growth)}%
+                </td>
+            `;
+        });
+    }
+
+    // 2. Xử lý Form Nhập Liệu
+    document.getElementById('recycleForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const selectedClass = document.getElementById('classSelect').value;
+        const plasticCount = document.getElementById('plasticCount').value;
+        const plasticVolume = document.getElementById('plasticVolume').value;
+        const canCount = document.getElementById('canCount').value;
+        const canVolume = document.getElementById('canVolume').value;
+        const paperWeight = document.getElementById('paperWeight').value; // gram
+
+        if (!selectedClass || paperWeight === "") {
+            alert("Vui lòng chọn Lớp và nhập Cân nặng Giấy!");
+            return;
+        }
+
+        // TÍNH TOÁN (Logic mô phỏng Server):
+        // Giả sử quy đổi: 1g Giấy = 1 Điểm, 1 Cái Chai/Lon = 100 Điểm.
+        const paperScore = parseFloat(paperWeight);
+        const plasticScore = parseInt(plasticCount) * 100;
+        const canScore = parseInt(canCount) * 100;
+        const totalScore = paperScore + plasticScore + canScore;
+
+        const confirmationMessage = `
+            Lớp: ${selectedClass}
+            Chai Nhựa: ${plasticCount} cái (${plasticVolume} ml)
+            Lon Kim Loại: ${canCount} cái (${canVolume} ml)
+            Giấy: ${paperWeight} gram
+            =============================
+            Tổng Điểm Xanh ước tính: ${totalScore.toLocaleString()} điểm
+            
+            Dữ liệu đã được gửi thành công đến Server GREEN-TALLY!
+        `;
+
+        alert(confirmationMessage);
+
+        // Trong thực tế:
+        // 1. Dữ liệu sẽ được gửi qua API (fetch/axios) đến Server Backend.
+        // 2. Server sẽ lưu trữ, tính toán lại và cập nhật Bảng Xếp Hạng.
+        
+        // Reset form sau khi gửi
+        this.reset();
+        document.getElementById('paperWeight').value = ''; // Đặt lại giá trị giấy
+        document.getElementById('plasticCount').value = '0';
+        document.getElementById('canCount').value = '0';
+        document.getElementById('plasticVolume').value = '0';
+        document.getElementById('canVolume').value = '0';
+    });
+
+    // Gọi hàm render khi trang được tải
+    document.addEventListener('DOMContentLoaded', renderRanking);
+</script>
+
+</body>
+</html>
